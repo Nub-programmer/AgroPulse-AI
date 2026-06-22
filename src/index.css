@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700;800&family=Outfit:wght@400;500;600;800;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Space Grotesk", "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+/* Custom Neo-Brutalist shadow variables and high-density rules */
+@layer base {
+  body {
+    background-color: #f7f7f7;
+    color: #111111;
+  }
+}
+
+.neo-border {
+  border: 3px solid #111111;
+}
+
+.neo-shadow {
+  box-shadow: 4px 4px 0px 0px #111111;
+}
+
+.neo-shadow-lg {
+  box-shadow: 8px 8px 0px 0px #111111;
+}
+
+.neo-shadow-sm {
+  box-shadow: 2px 2px 0px 0px #111111;
+}
+
+.neo-shadow-lime {
+  box-shadow: 4px 4px 0px 0px #DBF34D;
+}
+
+/* Hard button tap animation behavior */
+.neo-btn-press {
+  transition: transform 0.05s ease, box-shadow 0.05s ease;
+}
+
+.neo-btn-press:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px 0px #111111;
+}
+
+.neo-btn-press-lg:active {
+  transform: translate(4px, 4px);
+  box-shadow: 4px 4px 0px 0px #111111;
+}

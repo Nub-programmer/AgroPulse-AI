@@ -1,0 +1,1679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgroPulse AI - Neo-Brutalist Agricultural Supply Chain Control</title>
+
+  <!-- Neo-Brutalist Google Font Imports -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Custom Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Space Grotesk', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom Neo-Brutalist Extra CSS -->
+  <style>
+    /* Neo-Brutalist Layout Variables & Rules */
+    body {
+      background-color: #FFFFFF;
+      color: #000000;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    /* Standardized Black Borders */
+    .neo-border {
+      border: 3px solid #000000;
+    }
+    .neo-border-thick {
+      border: 5px solid #000000;
+    }
+    .neo-border-thin {
+      border: 2px solid #000000;
+    }
+
+    /* Flat Hard Shadows (No soft blur) */
+    .neo-shadow-sm {
+      box-shadow: 2px 2px 0px 0px rgba(0,0,0,1);
+    }
+    .neo-shadow {
+      box-shadow: 5px 5px 0px 0px rgba(0,0,0,1);
+    }
+    .neo-shadow-lg {
+      box-shadow: 8px 8px 0px 0px rgba(0,0,0,1);
+    }
+    .neo-shadow-crimson {
+      box-shadow: 5px 5px 0px 0px #EF4444;
+    }
+    .neo-shadow-lime {
+      box-shadow: 5px 5px 0px 0px #CCFF00;
+    }
+
+    /* Tactile Dynamic Transitions */
+    .neo-btn {
+      transition: all 0.08s ease-in-out;
+    }
+    .neo-btn:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 7px 7px 0px 0px rgba(0,0,0,1);
+    }
+    .neo-btn:active {
+      transform: translate(3px, 3px);
+      box-shadow: 1px 1px 0px 0px rgba(0,0,0,1);
+    }
+
+    /* Specific Action Button Style (Red/Danger for Crisis Toggle) */
+    .neo-btn-red {
+      transition: all 0.08s ease-in-out;
+    }
+    .neo-btn-red:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 7px 7px 0px 0px #EF4444;
+    }
+    .neo-btn-red:active {
+      transform: translate(3px, 3px);
+      box-shadow: 1px 1px 0px 0px #EF4444;
+    }
+
+    /* Blinking & Flashing Utilities for Crisis */
+    @keyframes flash-red {
+      0%, 100% { background-color: #EF4444; color: #FFFFFF; border-color: #000000; }
+      50% { background-color: #FFFFFF; color: #EF4444; border-color: #EF4444; }
+    }
+    .animate-flash-red {
+      animation: flash-red 0.8s infinite;
+    }
+
+    @keyframes text-blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    .animate-text-blink {
+      animation: text-blink 1s steps(2, start) infinite;
+    }
+
+    /* Marching Ants Animation on SVG Routes */
+    @keyframes march-forward {
+      to {
+        stroke-dashoffset: -40;
+      }
+    }
+    @keyframes march-backward {
+      to {
+        stroke-dashoffset: 40;
+      }
+    }
+    .svg-route-normal {
+      stroke-dasharray: 8, 4;
+      animation: march-forward 1.2s linear infinite;
+    }
+    .svg-route-reroute {
+      stroke-dasharray: 6, 3;
+      animation: march-backward 0.8s linear infinite;
+    }
+
+    /* Marquee Scroll Ticker */
+    @keyframes marquee-scroll {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+      display: inline-flex;
+      white-space: nowrap;
+      animation: marquee-scroll 20s linear infinite;
+    }
+
+    /* Custom Scrollbar for Terminal Terminal Look */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #FFFFFF;
+      border-left: 2px solid #000000;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #000000;
+      border: 2px solid #FFFFFF;
+    }
+  </style>
+</head>
+<body class="selection:bg-[#CCFF00] selection:text-black">
+
+  <!-- TOP CLINIC-STYLE TOCKER TICKER -->
+  <div class="neo-border-thin bg-black text-white py-1 overflow-hidden select-none font-mono text-xs uppercase tracking-widest relative z-50">
+    <div class="animate-marquee flex items-center gap-16">
+      <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-[#CCFF00]"></span> REGIONAL TELEMETRY ACTIVE</span>
+      <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-red-400"></span> CRISIS MONITOR: SECTOR 4 MONSOON RAIN RANGE IN BOUNDS</span>
+      <span class="flex items-center gap-2"><span class="w-2 h-2 bg-[#CCFF00]"></span> SPOILAGE RATIO FORECAST: MINIMAL 1.8% FOR PERISHABLES</span>
+      <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-400"></span> FLEET STATUS: 82 VEHICLES DEPLOYED</span>
+      <!-- Repeated for visual continuity -->
+      <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-[#CCFF00]"></span> REGIONAL TELEMETRY ACTIVE</span>
+      <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-red-400"></span> CRISIS MONITOR: SECTOR 4 MONSOON RAIN RANGE IN BOUNDS</span>
+      <span class="flex items-center gap-2"><span class="w-2 h-2 bg-[#CCFF00]"></span> SPOILAGE RATIO FORECAST: MINIMAL 1.8% FOR PERISHABLES</span>
+      <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-400"></span> FLEET STATUS: 82 VEHICLES DEPLOYED</span>
+    </div>
+  </div>
+
+  <!-- NAVIGATION NAVBAR -->
+  <header class="sticky top-0 bg-white/95 backdrop-blur-sm neo-border bg-white py-3 px-4 md:px-8 flex flex-col md:flex-row justify-between items-center gap-4 z-40 transition-colors duration-300 shadow-sm" id="main-header">
+    <div class="flex items-center gap-3">
+      <!-- Logo Mark -->
+      <div class="bg-[#CCFF00] neo-border p-1.5 neo-shadow-sm flex items-center justify-center">
+        <i data-lucide="sprout" class="w-6 h-6 stroke-[3px] text-black"></i>
+      </div>
+      <div>
+        <h1 class="text-2xl font-extrabold uppercase tracking-tight flex items-center gap-2">
+          AgroPulse <span class="bg-black text-[#CCFF00] px-1.5 py-0.5 rounded-sm text-xs font-mono font-bold">AI</span>
+        </h1>
+        <div class="text-[9px] font-mono font-bold tracking-widest text-[#666] -mt-1 uppercase">COOP DISPATCH INTELLIGENCE SYSTEM</div>
+      </div>
+    </div>
+
+    <!-- Active Mode Indicators and Links -->
+    <div class="flex flex-wrap items-center gap-3 w-full md:w-auto justify-center md:justify-end">
+      <!-- Author Badge -->
+      <div class="neo-border bg-white text-black text-xs font-mono font-bold px-3 py-1.5 uppercase flex items-center gap-1.5 shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+        <i data-lucide="user" class="w-3.5 h-3.5 text-neutral-700"></i>
+        <span>Made by Atharv Singh Negi, JPS Noida</span>
+      </div>
+
+      <!-- Status Badge -->
+      <div id="status-badge" class="neo-border bg-[#CCFF00] text-black text-xs font-mono font-extrabold px-3 py-1.5 uppercase flex items-center gap-2 shadow-[2px_2px_0px_rgba(0,0,0,1)] transition-all duration-300">
+        <span class="relative flex h-2.5 w-2.5">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-black opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-black" id="status-dot"></span>
+        </span>
+        <span id="status-text">MONSOON NODE: ACTIVE</span>
+      </div>
+
+      <!-- External Links -->
+      <a href="https://github.com/Nub-programmer/AgroPulse-AI" target="_blank" class="neo-btn neo-border px-3.5 py-1.5 bg-white font-bold text-xs uppercase tracking-wide flex items-center gap-1.5 neo-shadow-sm">
+        <i data-lucide="github" class="w-4 h-4"></i>
+        <span>GITHUB</span>
+      </a>
+      <button onclick="playBeep(440, 0.05); alert('Demonstration reset to standard, active status!')" class="neo-border neo-btn px-3.5 py-1.5 bg-[#FFFFFF] font-bold text-xs uppercase tracking-wide flex items-center gap-1.5 neo-shadow-sm">
+        <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+        <span>RESET DEMO</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 md:px-8 py-6 md:py-10 space-y-8">
+    
+    <!-- AUDIO PREFERENCE AND HELPER OVERLAY -->
+    <div class="w-full neo-border bg-[#F5F5F5] p-3 flex flex-col md:flex-row items-center justify-between gap-3 text-xs font-mono text-gray-800">
+      <div class="flex items-center gap-2">
+        <i data-lucide="volume-2" class="w-4 h-4 text-black"></i>
+        <span><strong>Tactile Audio Engine</strong> is active. Experience immediate physical retro synth chimes on interface clicks.</span>
+      </div>
+      <div class="flex gap-4">
+        <button onclick="toggleAudio()" id="haptic-audio-toggle" class="underline font-bold text-black border-none bg-transparent hover:text-gray-600 cursor-pointer">
+          Disable Audio Beeps
+        </button>
+        <span class="text-gray-400">|</span>
+        <span class="text-[10px] bg-black text-[#CCFF00] px-1 py-0.5 font-bold uppercase rounded">Version 1.0.4</span>
+      </div>
+    </div>
+
+    <!-- HERO PANEL WITH CRISIS TRIGGERS -->
+    <section class="neo-border-thick bg-white p-6 md:p-10 neo-shadow-lg flex flex-col lg:flex-row gap-8 lg:items-center relative overflow-hidden" id="hero-card">
+      <!-- Decorative Retro Background Grid lines -->
+      <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-size: 20px 20px; background-image: linear-gradient(to right, #000 1px, transparent 1px), linear-gradient(to bottom, #000 1px, transparent 1px);"></div>
+      
+      <div class="flex-1 space-y-6 relative z-10">
+        <div class="inline-block bg-[#CCFF00] text-black text-xs font-bold font-mono tracking-wider neo-border px-3 py-1 uppercase shadow-[2px_2px_0px_rgba(0,0,0,1)]">
+          Monsoon Emergency Dispatch & Spoilage Protection
+        </div>
+        
+        <h2 class="text-4xl md:text-5xl lg:text-6xl font-extrabold uppercase leading-[0.95] tracking-tight text-black" id="hero-title">
+          BYPASS LOGISTIC COLD-LOCKS.<br>PROTECT THE HARVEST.
+        </h2>
+        
+        <p class="text-base md:text-lg text-gray-700 leading-relaxed font-sans max-w-2xl" id="hero-subtitle">
+          Smallholder cooperatives lose up to 45% of crop value during monsoon disruptions. <strong class="bg-[#CCFF00]/45 px-1 py-0.5">AgroPulse AI</strong> connects real-time telemetry markers and routing heuristics to dynamic rail networks, preventing thermal crop spoilage and saving agricultural yields.
+        </p>
+
+        <!-- CTA Trigger buttons -->
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
+          <!-- MAIN EMERGENCY SHOCK TRIGGER -->
+          <button onclick="triggerClimateShock()" id="btn-shock" class="neo-btn neo-border px-8 py-4 bg-[#CCFF00] font-mono font-extrabold text-sm md:text-base uppercase tracking-wider text-black flex items-center justify-center gap-3 neo-shadow select-none group w-full sm:w-auto">
+            <span id="shock-spinner" class="hidden animate-spin rounded-full h-4 w-4 border-2 border-black border-t-transparent"></span>
+            <i data-lucide="amber-alert" id="shock-icon" class="w-5 h-5 stroke-[2.5px]"></i>
+            <span id="btn-shock-text">SIMULATE CLIMATE SHOCK</span>
+          </button>
+
+          <!-- AUX EXEC ADVISORY RECOMMENDATIONS -->
+          <button onclick="generateAIAdvisory()" class="neo-btn neo-border px-8 py-4 bg-black font-mono font-extrabold text-sm md:text-base uppercase tracking-wider text-white flex items-center justify-center gap-3 neo-shadow select-none w-full sm:w-auto">
+            <i data-lucide="sparkles" class="w-5 h-5 text-[#CCFF00]"></i>
+            <span class="text-[#CCFF00]">GENERATE ADVISORY</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Right column details: Summary of Agricultural Problems & Tech stack -->
+      <div class="w-full lg:w-96 neo-border bg-[#FBFBFB] p-5 neo-shadow space-y-4 font-mono text-xs relative" id="quick-facts-box">
+        <div class="border-b-2 border-black pb-2 flex items-center justify-between">
+          <span class="font-bold flex items-center gap-1.5"><i data-lucide="info" class="w-4 h-4"></i> CRISIS CRITERIA</span>
+          <span class="text-[10px] bg-[#CCFF00] px-1 text-black font-bold font-mono">SECTOR 4</span>
+        </div>
+        <ul class="space-y-3">
+          <li class="flex items-start gap-2">
+            <span class="text-black font-bold">»</span>
+            <span><strong>High Spoilage Crop Focus:</strong> Tomatoes (Thermal window: <span class="bg-[#CCFF00] px-1 font-bold">14 hrs max</span> in ambient monsoon heat).</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-black font-bold">»</span>
+            <span><strong>Primary Block Risk:</strong> Inundation of highway trunk NH-48 sector 4 (Landslide region).</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-black font-bold">»</span>
+            <span><strong>Cooperative Fleet:</strong> 82 temperature-controlled trucks & 2 backup rail express charters.</span>
+          </li>
+        </ul>
+        <div class="bg-black text-white p-2 text-[10px] uppercase font-bold flex items-center justify-between">
+          <span>ALGORITHM STATE:</span>
+          <span class="text-[#CCFF00]" id="algo-state-text">DORMANT (STEADY REROUTE)</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- CRISIS HIGH ALERT BANNER -->
+    <div id="crisis-alert-banner" class="hidden p-4 neo-border-thick bg-red-500 text-white flex flex-col md:flex-row items-center justify-between gap-4 neo-shadow-crimson animate-flash-red relative overflow-hidden">
+      <!-- Background flash decor -->
+      <div class="flex items-center gap-3">
+        <i data-lucide="triangle-alert" class="w-8 h-8 stroke-[3px] shrink-0"></i>
+        <div>
+          <h3 class="text-xl font-black uppercase tracking-wider">⚠️ CRITICAL WEATHER DISRUPTION DETECTED</h3>
+          <p class="font-mono text-xs uppercase tracking-wide opacity-90">Sector 4 storm surge inundating highway segment NH-48. Main route closed to perishable freight.</p>
+        </div>
+      </div>
+      <button onclick="triggerClimateShock()" class="neo-border bg-white text-black font-mono font-black text-xs px-4 py-2 uppercase hover:bg-gray-100 neo-shadow-sm transition-all">
+        DISMISS ALERT
+      </button>
+    </div>
+
+    <!-- METRICS DASHBOARD ROW -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      
+      <!-- CARD 1: CROP SPOILAGE RISK -->
+      <div class="neo-border bg-white p-5 neo-shadow transition-all duration-300 relative group overflow-hidden" id="metric-card-1">
+        <!-- Visual Accent Line -->
+        <div class="absolute top-0 left-0 w-full h-2 bg-green-500 transition-colors duration-300" id="card-1-accent"></div>
+        <div class="flex justify-between items-start pt-2">
+          <span class="text-xs font-mono uppercase tracking-widest text-slate-500 font-bold">Crop Spoilage Risk</span>
+          <div class="bg-green-100 p-1 neo-border-thin rounded-sm text-green-700" id="card-1-badge">
+            <i data-lucide="shield-check" class="w-4 h-4" id="card-1-icon"></i>
+          </div>
+        </div>
+        <div class="mt-4 flex items-baseline gap-2">
+          <span class="text-4xl md:text-5xl font-extrabold uppercase font-mono tracking-tight" id="metric-spoilage">4.2%</span>
+          <span class="text-xs font-mono font-bold text-green-600 transition-all duration-300" id="metric-spoilage-delta">SAFE RANGE</span>
+        </div>
+        <p class="mt-2 text-xs text-gray-600 font-mono" id="card-1-detail">Safe window: 32 hrs avg</p>
+        <div class="mt-3 bg-gray-100 h-2 neo-border-thin overflow-hidden relative">
+          <div class="bg-green-500 h-full w-[4.2%] transition-all duration-500" id="metric-spoilage-bar"></div>
+        </div>
+      </div>
+
+      <!-- CARD 2: FLEET UTILIZATION -->
+      <div class="neo-border bg-white p-5 neo-shadow transition-all duration-300 relative group overflow-hidden" id="metric-card-2">
+        <div class="absolute top-0 left-0 w-full h-2 bg-black transition-colors duration-300" id="card-2-accent"></div>
+        <div class="flex justify-between items-start pt-2">
+          <span class="text-xs font-mono uppercase tracking-widest text-slate-500 font-bold">Fleet Congestion</span>
+          <div class="bg-gray-100 p-1 neo-border-thin rounded-sm text-black" id="card-2-badge">
+            <i data-lucide="truck" class="w-4 h-4"></i>
+          </div>
+        </div>
+        <div class="mt-4 flex items-baseline gap-2">
+          <span class="text-4xl md:text-5xl font-extrabold uppercase font-mono tracking-tight" id="metric-fleet">31%</span>
+          <span class="text-xs font-mono font-bold text-slate-600" id="metric-fleet-delta">FLOW STABLE</span>
+        </div>
+        <p class="mt-2 text-xs text-gray-600 font-mono" id="card-2-detail">Primary corridors normal</p>
+        <div class="mt-3 bg-gray-100 h-2 neo-border-thin overflow-hidden relative">
+          <div class="bg-black h-full w-[31%] transition-all duration-500" id="metric-fleet-bar"></div>
+        </div>
+      </div>
+
+      <!-- CARD 3: PENDING DISPATCHES -->
+      <div class="neo-border bg-white p-5 neo-shadow transition-all duration-300 relative group overflow-hidden" id="metric-card-3">
+        <div class="absolute top-0 left-0 w-full h-2 bg-black transition-colors duration-300" id="card-3-accent"></div>
+        <div class="flex justify-between items-start pt-2">
+          <span class="text-xs font-mono uppercase tracking-widest text-slate-500 font-bold">Active Blockages</span>
+          <div class="bg-gray-100 p-1 neo-border-thin rounded-sm text-black" id="card-3-badge">
+            <i data-lucide="ban" class="w-4 h-4 text-black" id="card-3-icon-badge"></i>
+          </div>
+        </div>
+        <div class="mt-4 flex items-baseline gap-2">
+          <span class="text-4xl md:text-5xl font-extrabold uppercase font-mono tracking-tight" id="metric-pending">0</span>
+          <span class="text-xs font-mono font-bold text-[#666]" id="metric-pending-delta">NORMAL TRUNK</span>
+        </div>
+        <p class="mt-2 text-xs text-gray-600 font-mono" id="card-3-detail">0 blocked corridors</p>
+        <div class="mt-3 bg-gray-100 h-2 neo-border-thin overflow-hidden relative">
+          <div class="bg-gray-400 h-full w-[0%] transition-all duration-500" id="metric-pending-bar"></div>
+        </div>
+      </div>
+
+      <!-- CARD 4: SAFE CARGO REROUTES -->
+      <div class="neo-border bg-white p-5 neo-shadow transition-all duration-300 relative group overflow-hidden" id="metric-card-4">
+        <div class="absolute top-0 left-0 w-full h-2 bg-[#CCFF00] transition-colors duration-300" id="card-4-accent"></div>
+        <div class="flex justify-between items-start pt-2">
+          <span class="text-xs font-mono uppercase tracking-widest text-slate-500 font-bold">Saved Cargo Value</span>
+          <div class="bg-lime-150 p-1 bg-[#CCFF00]/40 neo-border-thin rounded-sm text-black">
+            <i data-lucide="badge-dollar-sign" class="w-4 h-4"></i>
+          </div>
+        </div>
+        <div class="mt-4 flex items-baseline gap-2">
+          <span class="text-4.5xl md:text-4xl lg:text-3.5xl xl:text-4.5xl font-extrabold uppercase font-mono tracking-tight text-black" id="metric-reroutes">$42.5K</span>
+          <span class="text-xs font-mono font-bold text-slate-800" id="metric-reroutes-delta">STANDBY</span>
+        </div>
+        <p class="mt-2 text-xs text-gray-600 font-mono" id="card-4-detail">Co-op budget protection</p>
+        <div class="mt-3 bg-gray-100 h-2 neo-border-thin overflow-hidden relative">
+          <div class="bg-[#CCFF00] h-full w-[20%] transition-all duration-500" id="metric-reroutes-bar"></div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- CORE INTERACTIVE WOW PANEL: MAP + TERMINAL LOGS -->
+    <section class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      
+      <!-- LEFT SECTION: GRAPHIC SUPPLY CHAIN GRID VISUAL (7 Cols) -->
+      <div class="lg:col-span-7 neo-border-thick bg-white p-4 md:p-6 neo-shadow relative flex flex-col justify-between" id="visualmap-panel">
+        
+        <!-- Header Controls for Map -->
+        <div class="border-b-2 border-black pb-3 mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h3 class="text-lg md:text-xl font-extrabold uppercase tracking-tight flex items-center gap-2">
+              <i data-lucide="map" class="w-5 h-5 text-black"></i>
+              SUPPLY COOPERATIVE DISPATCH GRAPH
+            </h3>
+            <p class="text-xs text-slate-500 font-mono">Live vector trace representing crop flow telemetry, hubs, and corridors.</p>
+          </div>
+          <!-- Mode Toggle Switch inside Map Header -->
+          <div class="flex items-center gap-2">
+            <span class="text-[10px] font-mono uppercase font-bold text-slate-500">Trace Rate:</span>
+            <span class="text-[10px] bg-black text-white px-1.5 py-0.5 font-mono font-bold uppercase" id="tracking-mode-indicator animate-pulse">1HZ REALTIME</span>
+          </div>
+        </div>
+
+        <!-- SVG Map Container with full grid -->
+        <div class="relative w-full aspect-[4/3] bg-white neo-border p-2 bg-[radial-gradient(#ddd_1px,transparent_1px)] [background-size:16px_16px] overflow-hidden" id="svg-map-wrapper">
+          
+          <!-- Map Labels Overlay -->
+          <div class="absolute top-2 left-2 bg-black text-white text-[10px] font-bold font-mono px-2 py-0.5 z-10 uppercase shadow-sm">
+            SECTOR 4 CO-OP MATRIX
+          </div>
+
+          <!-- Alert Flash Inside Map Area when Crisis Is On -->
+          <div id="map-critical-overlay" class="hidden absolute inset-0 bg-red-600/10 pointer-events-none z-10 flex items-center justify-center border-4 border-red-500 animate-pulse">
+            <div class="bg-red-500 border-2 border-black p-2 text-white text-xs font-mono font-extrabold neo-shadow-sm uppercase text-center max-w-xs scale-90">
+              ⚡ COMPROMISED SEGMENT NH-48 BLOCKED — DETECTING ROUTE BYPASSES
+            </div>
+          </div>
+
+          <!-- SVG Graphic Map -->
+          <svg viewBox="0 0 800 600" class="w-full h-full" id="svg-map">
+            <defs>
+              <!-- Glowing effects for Nodes / Bypass Path -->
+              <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="6" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+            </defs>
+
+            <!-- CONNECTIONS (PATHS) -->
+            <!-- Path A: Farm Coop A to Primary Highway (NH-48) to Metropolitan Market (NORMAL FLOW) -->
+            <path id="path-farmA-highway" d="M 120 180 L 360 180" fill="none" stroke="#000000" stroke-width="4" />
+            <path id="path-farmA-highway-flow" d="M 120 180 L 360 180" fill="none" class="svg-route-normal" stroke="#22C55E" stroke-width="3" />
+
+            <!-- Path B: Farm Coop B to Primary Highway (NH-48) to Metropolitan Market (NORMAL FLOW) -->
+            <path id="path-farmB-highway" d="M 130 420 L 360 180" fill="none" stroke="#000000" stroke-width="4" />
+            <path id="path-farmB-highway-flow" d="M 130 420 L 360 180" fill="none" class="svg-route-normal" stroke="#22C55E" stroke-width="3" />
+
+            <!-- Highway to Metro Market Core Trunk (The Blocked segment) -->
+            <path id="path-trunk-highway" d="M 360 180 L 680 180" fill="none" stroke="#000000" stroke-width="6" />
+            <!-- Active green primary path -->
+            <path id="path-trunk-highway-flow" d="M 360 180 L 680 180" fill="none" class="svg-route-normal" stroke="#22C55E" stroke-width="4" />
+
+            <!-- BYPASS BRANCH 2: Directing from NH-48 junction down to Storage Silos (Normally Inactive, turns Golden) -->
+            <path id="path-aux-silo" d="M 360 180 L 360 420" fill="none" stroke="#000000" stroke-width="4" stroke-dasharray="6,6" />
+            <path id="path-aux-silo-flow" d="M 360 180 L 360 420" fill="none" stroke="#FFA500" stroke-width="3" class="hidden svg-route-reroute" />
+
+            <!-- BYPASS BRANCH 3: Storage Silos connected via Railway Corridor to Market (Emergency active, turns Fluorescent cyan/lime) -->
+            <path id="path-rail-bypass" d="M 360 420 L 680 420" fill="none" stroke="#000000" stroke-width="4" stroke-dasharray="6,6" />
+            <!-- Animated blue dynamic bypass route -->
+            <path id="path-rail-bypass-flow" d="M 360 420 L 680 420" fill="none" stroke="#000000" stroke-width="4" class="hidden" />
+            <path id="path-rail-bypass-flow-ants" d="M 360 420 L 680 420" fill="none" stroke="#CCFF00" stroke-width="3" class="hidden svg-route-reroute" />
+
+            <!-- Metro Market backup connector -->
+            <path id="path-metro-connector" d="M 680 420 L 680 180" fill="none" stroke="#000000" stroke-width="4" stroke-dasharray="6,6" />
+            <path id="path-metro-connector-flow" d="M 680 420 L 680 180" fill="none" stroke="#CCFF00" stroke-width="3" class="hidden svg-route-reroute" />
+
+
+            <!-- LANDSLIDE AREA AND MARKER -->
+            <!-- Blockage Zone Highlight (NH-48 Corridor Warning circle) -->
+            <g id="landslide-marker" class="opacity-0 transition-opacity duration-300 pointer-events-none">
+              <!-- Animated pulse block background -->
+              <circle cx="500" cy="180" r="30" fill="#EF4444" fill-opacity="0.2" class="animate-pulse" />
+              <!-- Highlight border -->
+              <line x1="480" y1="160" x2="520" y2="200" stroke="#000" stroke-width="6" />
+              <line x1="520" y1="160" x2="480" y2="200" stroke="#000" stroke-width="6" />
+              <line x1="480" y1="160" x2="520" y2="200" stroke="#EF4444" stroke-width="4" />
+              <line x1="520" y1="160" x2="480" y2="200" stroke="#EF4444" stroke-width="4" />
+            </g>
+
+
+            <!-- NODES (GRID COOPERATIVES) -->
+            
+            <!-- NODE A: Farm Coop A (Western Highlands) -->
+            <g class="cursor-pointer" onclick="selectNode('farm-a')">
+              <!-- Black Offset Shadow box representation -->
+              <rect x="54" y="114" width="132" height="62" rx="4" fill="000" />
+              <rect x="50" y="110" width="132" height="62" rx="4" fill="#FFFFFF" stroke="#000000" stroke-width="3" id="node-box-farmA" class="transition-colors" />
+              
+              <text x="65" y="132" font-family="'Space Grotesk', sans-serif" font-weight="bold" font-size="12" fill="#000">COOP A: HIGHLANDS</text>
+              <text x="65" y="150" font-family="'JetBrains Mono', monospace" font-size="10" fill="#666">Tomato Base Cargo</text>
+              <text id="node-farmA-pulse" x="65" y="163" font-family="'JetBrains Mono', monospace" font-weight="bold" font-size="10" fill="#22C55E">● TEMP OUT: 19.4C</text>
+            </g>
+
+            <!-- NODE B: Farm Coop B (Southern Plains) -->
+            <g class="cursor-pointer" onclick="selectNode('farm-b')">
+              <rect x="64" y="384" width="132" height="62" rx="4" fill="000" />
+              <rect x="60" y="380" width="132" height="62" rx="4" fill="#FFFFFF" stroke="#000000" stroke-width="3" id="node-box-farmB" class="transition-colors" />
+              
+              <text x="75" y="402" font-family="'Space Grotesk', sans-serif" font-weight="bold" font-size="12" fill="#000">COOP B: PLAINS</text>
+              <text x="75" y="420" font-family="'JetBrains Mono', monospace" font-size="10" fill="#666">Grain & Dairy Loads</text>
+              <text id="node-farmB-pulse" x="75" y="433" font-family="'JetBrains Mono', monospace" font-weight="bold" font-size="10" fill="#22C55E">● SENSOR: STABLE</text>
+            </g>
+
+            <!-- NODE C: Central Silo Hub (Cold Storage Auxiliary) -->
+            <g class="cursor-pointer" onclick="selectNode('storage-hub')">
+              <rect x="294" y="384" width="132" height="62" rx="4" fill="000" />
+              <rect x="290" y="380" width="132" height="62" rx="4" fill="#FFFFFF" stroke="#000000" stroke-width="3" id="node-box-storage" class="transition-colors" />
+              
+              <text x="305" y="402" font-family="'Space Grotesk', sans-serif" font-weight="bold" font-size="12" fill="#000">STORAGE AUX SILO</text>
+              <text x="305" y="420" font-family="'JetBrains Mono', monospace" font-size="10" fill="#666">Cool-Hold Reserves</text>
+              <text id="node-storage-status" x="305" y="433" font-family="'JetBrains Mono', monospace" font-weight="bold" font-size="10" fill="#22C55E">● STANDBY: AVAILABLE</text>
+            </g>
+
+            <!-- NODE D: Primary Highway NH-48 Junction (Intersection) -->
+            <g class="cursor-pointer" onclick="selectNode('highway-junction')">
+              <rect x="304" y="144" width="112" height="52" rx="4" fill="000" />
+              <rect x="300" y="140" width="112" height="52" rx="4" fill="#FFFFFF" stroke="#000000" stroke-width="3" id="node-box-junction" class="transition-colors" />
+              
+              <text x="312" y="160" font-family="'Space Grotesk', sans-serif" font-weight="bold" font-size="12" fill="#000">TRUNK JUNCTION</text>
+              <text id="node-junction-detail" x="312" y="178" font-family="'JetBrains Mono', monospace" font-size="10" fill="#22C55E">FLOW OPTIMAL</text>
+            </g>
+
+            <!-- NODE E: Metro Terminal Market (Target Delivery Point) -->
+            <g class="cursor-pointer" onclick="selectNode('market-destination')">
+              <!-- Bright pastel highlight on destination shadow -->
+              <rect x="614" y="134" width="142" height="72" rx="4" fill="#000" />
+              <!-- Lime core border representation -->
+              <rect x="610" y="130" width="142" height="72" rx="4" fill="#FFFFFF" stroke="#000000" stroke-width="3" id="node-box-market" class="transition-colors" />
+              
+              <rect x="615" y="135" width="132" height="4" fill="#CCFF00" />
+              <text x="622" y="154" font-family="'Space Grotesk', sans-serif" font-weight="black" font-size="13" fill="#000">METRO MARKET</text>
+              <text x="622" y="172" font-family="'JetBrains Mono', monospace" font-size="9" fill="#000">WHOLESALE DISTRIBUTION</text>
+              <text id="node-market-info" x="622" y="188" font-family="'JetBrains Mono', monospace" font-weight="extrabold" font-size="10" fill="#22C55E">★ DEMAND HIGHS: OK</text>
+            </g>
+
+            <!-- NODE F: Rail Freight Depot (Backup Freight connection) -->
+            <g class="cursor-pointer" onclick="selectNode('rail-depot')">
+              <rect x="614" y="384" width="142" height="62" rx="4" fill="000" />
+              <rect x="610" y="380" width="142" height="62" rx="4" fill="#FFFFFF" stroke="#000000" stroke-width="3" id="node-box-rail" class="transition-colors" />
+              
+              <text x="622" y="402" font-family="'Space Grotesk', sans-serif" font-weight="bold" font-size="12" fill="#000">RAILWAY FREIGHT</text>
+              <text x="622" y="420" font-family="'JetBrains Mono', monospace" font-size="10" fill="#666">Emergency Cargo Depot</text>
+              <text id="node-rail-status" x="622" y="433" font-family="'JetBrains Mono', monospace" font-weight="bold" font-size="10" fill="#888">STANDBY INACTIVE</text>
+            </g>
+
+          </svg>
+        </div>
+
+        <!-- Node details box beneath the map -->
+        <div class="mt-4 neo-border bg-[#F5F5F5] p-3 shadow-inner flex flex-col md:flex-row justify-between items-stretch gap-4" id="node-metadata-console">
+          <div class="flex-1">
+            <div class="text-[9px] font-mono text-gray-500 font-extrabold uppercase">Telemetry Inspector: Node Target Metrics</div>
+            <h4 class="text-base font-extrabold uppercase tracking-tight text-black flex items-center gap-2" id="inspector-title">
+              <span class="w-2.5 h-2.5 bg-green-500 inline-block neo-border-thin"></span>
+              FARM COOPERATIVE A (HIGHLANDS)
+            </h4>
+            <div class="grid grid-cols-2 gap-2 mt-2 font-mono text-[11px]" id="inspector-stats-grid">
+              <div><span class="text-gray-500">Current Payload:</span> <strong class="text-black text-xs" id="inspector-payload">14 Tons Perishable</strong></div>
+              <div><span class="text-gray-500">Ambient Temp:</span> <strong class="text-black text-xs" id="inspector-temp">19.4 °C (Stable)</strong></div>
+              <div><span class="text-gray-500">Cooling Power:</span> <strong class="text-black text-xs" id="inspector-aux">Primary Active</strong></div>
+              <div><span class="text-gray-500">Transit Priority:</span> <strong class="text-[#22C55E] text-xs font-bold" id="inspector-level">LEVEL 1 DIRECT</strong></div>
+            </div>
+          </div>
+          <div class="w-full md:w-44 flex flex-col justify-between neo-border bg-white p-2..5 text-center text-xs justify-center" id="inspector-action-container">
+            <span class="text-[10px] font-mono uppercase font-bold text-gray-500">Route Status</span>
+            <span class="text-xs font-mono font-black text-green-700 bg-green-150 rounded px-1 text-center truncate block mt-1 uppercase" id="inspector-route-status">HIGHWAY DIRECT</span>
+            <button onclick="pingSelectedNode()" class="mt-1.5 w-full bg-black text-white py-1 text-[10px] font-mono font-bold uppercase hover:bg-slate-800 transition active:scale-95">
+              PING TELEMETRY
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT SECTION: DEV-STYLE DISPATCH TERMINAL FEEDS (5 Cols) -->
+      <div class="lg:col-span-5 flex flex-col gap-6">
+
+        <!-- LOG FEED TERMINAL BOX -->
+        <div class="neo-border-thick bg-black text-white p-4 neo-shadow flex-1 flex flex-col justify-between relative min-h-[380px]" id="terminal-feed-panel">
+          
+          <!-- Terminal Header -->
+          <div class="border-b-2 border-white/20 pb-3 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-3 class bg-red-500 h-3 rounded-full border border-black inline-block"></span>
+              <span class="w-3 class bg-[#CCFF00] h-3 rounded-full border border-black inline-block"></span>
+              <span class="w-3 class bg-blue-500 h-3 rounded-full border border-black inline-block"></span>
+              <span class="font-mono text-xs font-extrabold text-gray-300 ml-1">COOP DIAGNOSTIC CONSOLE</span>
+            </div>
+            <div class="flex items-center gap-1.5 font-mono text-[10px] text-gray-400">
+              <span class="animate-text-blink text-[#CCFF00] font-black">●</span>
+              <span>LIVE FEED</span>
+            </div>
+          </div>
+
+          <!-- TERMINAL VIEW MODE FILTERS inside dark console -->
+          <div class="flex flex-wrap gap-1 border-b border-white/10 py-2.5 bg-black" id="log-filter-row">
+            <button onclick="changeLogFilter('all')" id="filter-btn-all" class="font-mono text-[9px] px-2 py-1 bg-white text-black font-extrabold uppercase tracking-tight border border-white neo-shadow-sm">ALL LOGS</button>
+            <button onclick="changeLogFilter('alerts')" id="filter-btn-alerts" class="font-mono text-[9px] px-2 py-1 text-gray-400 font-bold uppercase tracking-tight hover:text-white transition">ALERTS</button>
+            <button onclick="changeLogFilter('routing')" id="filter-btn-routing" class="font-mono text-[9px] px-2 py-1 text-gray-400 font-bold uppercase tracking-tight hover:text-white transition">ROUTING</button>
+            <button onclick="changeLogFilter('system')" id="filter-btn-system" class="font-mono text-[9px] px-2 py-1 text-gray-400 font-bold uppercase tracking-tight hover:text-white transition">SYSTEM</button>
+          </div>
+
+          <!-- Terminal Content Stream -->
+          <div class="flex-1 font-mono text-xs overflow-y-auto max-h-[300px] py-4 space-y-2.5 text-slate-300" id="terminal-logs-container">
+            <!-- Programmatic logs insert here -->
+          </div>
+
+          <!-- Terminal Footer with simulated command line input prompt -->
+          <div class="border-t border-white/20 pt-3 flex items-center bg-black font-mono text-xs">
+            <span class="text-[#CCFF00] mr-2 font-black">AGROPULSE_AI:_> </span>
+            <input type="text" id="terminal-input" placeholder="Type automated CLI commands (e.g., 're-route', 'status')..." class="bg-transparent border-none outline-none text-white w-full placeholder:text-gray-600 focus:placeholder:text-gray-400" onkeydown="handleTerminalCommand(event)">
+            <button onclick="sendManualCommand()" class="bg-[#CCFF00] text-black px-2.5 py-1 text-[10px] font-bold rounded-sm border-none shadow-sm cursor-pointer hover:bg-white active:scale-95 flex items-center gap-1">
+              <span>SEND</span>
+              <i data-lucide="corner-down-left" class="w-3 h-3"></i>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- QUICK INTERACTION METRICS BAR / QUICK SIMULATION METRICS -->
+        <div class="neo-border bg-[#CCFF00] p-4 neo-shadow shadow-black text-black space-y-3">
+          <h4 class="text-sm font-extrabold uppercase font-sans tracking-tight flex items-center gap-2">
+            <i data-lucide="network" class="w-4 h-4"></i>
+            ORCHESTRATION COOPERATIVE SPEED-INDEX
+          </h4>
+          <p class="text-xs leading-relaxed font-sans">
+            During heavy climate stress, AgroPulse recalculates path options within <span class="bg-black text-white px-1 font-extrabold inline-block font-mono">1.4 seconds</span> of weather satellite feeds updates, keeping 90%+ flow integrity without freezing dispatch lines.
+          </p>
+          <div class="flex items-center justify-between border-t border-black pt-2 font-mono text-[10px]">
+            <span>Calculations / Second: <strong>4,200</strong></span>
+            <span>Est. Truck Delay: <strong id="delay-index">0m (Stable)</strong></span>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- EXECUTIVE AI ADVISORY SECTION (Wow Moment AI) -->
+    <section class="neo-border bg-[#FFFFFF] p-6 md:p-8 neo-shadow-lg relative overflow-hidden" id="ai-section">
+      <!-- High Contrast Outline Strip -->
+      <div class="absolute top-0 left-0 w-full h-3 bg-black"></div>
+      
+      <!-- Split-grid representing AI Control interface -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 pt-2">
+        
+        <!-- Left Side: Advisory Info and Prompt Generator -->
+        <div class="lg:col-span-5 space-y-4">
+          <div class="flex items-center gap-2">
+            <div class="bg-[#CCFF00] neo-border p-1 rounded-sm flex items-center justify-center">
+              <i data-lucide="sparkles" class="w-5 h-5 stroke-[2.5px] text-black"></i>
+            </div>
+            <h3 class="text-xl font-extrabold uppercase tracking-tight text-black">
+              AI CLINICAL DISPATCH ADVISORY
+            </h3>
+          </div>
+          
+          <p class="text-xs md:text-sm text-gray-700 leading-relaxed font-sans">
+            The Executive Dispatch Advisory uses deep real-time climate telemetry paired with optimal logistics path-finding heuristics to craft an immediate action-manifest. In case of network emergency, review the generated recommendations immediately.
+          </p>
+
+          <!-- Cooperative Parameters Settings (Customizes AI advisory) -->
+          <div class="neo-border bg-[#FBFBFB] p-4 space-y-3">
+            <span class="text-[10px] font-mono text-gray-400 block font-bold uppercase border-b pb-1">AI Prompt Options & Adjustments</span>
+            
+            <div class="space-y-2">
+              <label class="block text-xs font-mono text-slate-700">
+                Primary Crop Payload Focus
+                <select id="adj-crop" class="w-full mt-1 p-1 bg-white neo-border-thin font-mono text-xs select-none">
+                  <option value="Tomatoes">High-Perishable Tomatoes / Mangoes</option>
+                  <option value="Organic Milks">Bulk Dairy & Organic Milk Shipments</option>
+                  <option value="Paddy Grains">Coarse Paddy Grains / Maize Cargo</option>
+                </select>
+              </label>
+
+              <label class="block text-xs font-mono text-slate-700">
+                Rerouting Constraint Model
+                <select id="adj-mode" class="w-full mt-1 p-1 bg-white neo-border-thin font-mono text-xs select-none">
+                  <option value="Saves Speed">Avoid Spoilage window (Prioritize Speed)</option>
+                  <option value="Saves Cost">Maintain Cooperative Budget (Prioritize Cost)</option>
+                  <option value="Saves Carbon">Eco-Optimal Rail Transport Network (Prioritize Carbon)</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <!-- GENERATOR BUTTON -->
+          <button onclick="generateAIAdvisory()" id="btn-ai" class="neo-btn neo-border w-full py-4 bg-[#CCFF00] font-mono font-extrabold text-sm uppercase tracking-wide flex items-center justify-center gap-3 neo-shadow select-none group">
+            <i data-lucide="cpu" class="w-5 h-5 text-black"></i>
+            <span>COMPILE DISPATCH ADVISORY</span>
+          </button>
+        </div>
+
+        <!-- Right Side: Beautiful Interactive Output Sheet (Looks like a receipt or printed manifest) -->
+        <div class="lg:col-span-7 flex flex-col justify-between neo-border bg-[#FBFAF2] p-5 md:p-6 neo-shadow relative min-h-[280px]" id="ai-output-manifest">
+          <!-- Printed Header details -->
+          <div class="border-b border-black/20 pb-3 flex justify-between items-start">
+            <div>
+              <span class="text-[10px] font-mono font-bold text-gray-500 uppercase">SYS: EXECUTOR DISPATCH MANIFEST</span>
+              <h4 class="text-base font-extrabold uppercase text-black" id="ai-sheet-heading">STEADY STATE ROUTING ACTIVE</h4>
+            </div>
+            <div class="bg-black text-[#CCFF00] px-2 py-1 font-mono text-[9px] font-bold uppercase neo-border-thin" id="ai-sheet-timestamp">
+              SYNCED OK
+            </div>
+          </div>
+
+          <!-- Loading Progress bar inside container (Normally hidden) -->
+          <div id="ai-loading-panel" class="hidden my-8 space-y-3 py-6 justify-center text-center items-center flex flex-col flex-1">
+            <div class="animate-spin rounded-full h-8 w-8 border-4 border-black border-t-transparent"></div>
+            <p class="font-mono text-xs uppercase animate-pulse font-extrabold">Querying dynamic co-op model...</p>
+            <div class="w-48 bg-gray-200 h-2.5 neo-border-thin overflow-hidden relative">
+              <div class="bg-black h-full w-[25%]" id="loading-bar-tracker" style="animation: slide-progress 1.5s ease-in-out infinite;"></div>
+            </div>
+          </div>
+
+          <!-- Real Dynamic Text Advisory Box -->
+          <div class="flex-1 py-4 font-mono text-xs md:text-sm text-black leading-relaxed" id="ai-text-box">
+            System is running in **STEADY DISTRIBUTION MODE**. Primary trunk road NH-48 is rated green and optimal. No detour instructions required. Cooperative dispatches of tomatoes and grains should continue along primary national highway paths.
+          </div>
+
+          <!-- Action block in manifest bottom -->
+          <div class="border-t border-black/20 pt-4 mt-2 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <span class="text-[10px] font-mono text-gray-500 font-bold block" id="saved-summary-text">STABILITY METRIC: 100% RELIABILITY RATED</span>
+            <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+              <button onclick="copyAdvisoryText()" class="neo-border text-[11px] font-mono font-bold bg-white text-black px-3.5 py-1.5 flex items-center gap-1.5 hover:bg-gray-100 transition shadow-sm" id="btn-copy">
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                <span id="btn-copy-label">COPY TEXT</span>
+              </button>
+              <button onclick="downloadManifestFile()" class="neo-border text-[11px] font-mono font-bold bg-black text-white px-3.5 py-1.5 flex items-center gap-1.5 hover:bg-slate-850 transition shadow-sm">
+                <i data-lucide="file-down" class="w-3.5 h-3.5"></i>
+                <span>EXPORT MANIFEST</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Dynamic toast confirmation alert -->
+          <div id="copy-toast" class="hidden absolute top-4 left-1/2 transform -translate-x-1/2 bg-black text-[#CCFF00] px-4 py-2 neo-border font-mono text-xs uppercase font-extrabold shadow-sm transition-all animate-bounce">
+            Advisory Copied to Clipboard!
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- REVOLUTIONARY HOW-IT-WORKS SECTION -->
+  <section class="max-w-7xl mx-auto px-4 md:px-8 pb-16 pt-4">
+    <div class="neo-border bg-[#F9F9F9] p-6 md:p-8 neo-shadow">
+      <h3 class="text-xl font-extrabold uppercase tracking-tight text-black border-b-2 border-black pb-3 mb-6 flex items-center gap-2">
+        <i data-lucide="book-open" class="w-5 h-5"></i>
+        AGROPULSE DEMO COMPREHENSION MANUAL
+      </h3>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-4 neo-border neo-shadow-sm space-y-2">
+          <div class="font-mono text-xs text-[#CCFF00] bg-black px-2 py-0.5 inline-block font-extrabold">STEP 1</div>
+          <h4 class="text-base font-bold uppercase tracking-tight">TRIGGER THE CRISIS</h4>
+          <p class="text-xs text-gray-700 leading-relaxed font-sans">
+            Click is <span class="font-bold">"SIMULATE CLIMATE SHOCK"</span> above. Red alerts will trigger instantly, metrics will update into red zones, a landslide warning flag will physically appear blocking the highway trunk segment on the map coordinate, and system logs will stream the failure telemetry.
+          </p>
+        </div>
+        
+        <div class="bg-white p-4 neo-border neo-shadow-sm space-y-2">
+          <div class="font-mono text-xs text-black bg-[#CCFF00] px-2 py-0.5 inline-block font-extrabold">STEP 2</div>
+          <h4 class="text-base font-bold uppercase tracking-tight">ENGAGE DYNAMIC REROUTING</h4>
+          <p class="text-xs text-gray-700 leading-relaxed font-sans">
+            Observe the active trace change live. Normal green flow lines will shut down. Alternate bypass channels to the cold storage silos & the railway system express trace corridor will automatically light up with fast, animated directional markers.
+          </p>
+        </div>
+
+        <div class="bg-white p-4 neo-border neo-shadow-sm space-y-2">
+          <div class="font-mono text-xs text-white bg-black px-2 py-0.5 inline-block font-extrabold">STEP 3</div>
+          <h4 class="text-base font-bold uppercase tracking-tight">COMPILED DECISION INSIGHT</h4>
+          <p class="text-xs text-gray-700 leading-relaxed font-sans">
+            Toggle crop focus and rerouting settings at the bottom left. Click <span class="font-semibold px-0.5 bg-[#CCFF00]">"COMPILE DISPATCH ADVISORY"</span> to simulate a smart Gemini prompt, printing actionable reroute instructions for immediate cooperative action.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BRUTALIST FOOTER INFO -->
+  <footer class="neo-border bg-black text-white py-10 px-4 md:px-8 border-t-4 transition-colors z-30 relative overflow-hidden" id="main-footer">
+    <!-- Decorative background grids -->
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-stretch gap-8 relative z-10">
+      
+      <div class="space-y-4 max-w-md">
+        <div class="flex items-center gap-2">
+          <div class="bg-[#CCFF00] p-1.5 neo-border-thin flex items-center justify-center">
+            <i data-lucide="sprout" class="w-6 h-6 text-black"></i>
+          </div>
+          <span class="text-2xl font-black uppercase tracking-tight text-[#CCFF00]">AgroPulse AI</span>
+        </div>
+        <p class="text-xs text-slate-400 font-sans leading-relaxed">
+          Designed and compiled for Hackathons: An offline-resilient, robust visual crisis dispatcher preventing high-temperature perishable crop spoilage inside Indian agricultural cooperatives during critical monsoon disruptions.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 gap-8 font-mono text-xs text-slate-400">
+        <div class="space-y-3">
+          <span class="font-extrabold text-white text-[10px] tracking-wider uppercase block border-b border-gray-700 pb-1">HACKATHON SPECS</span>
+          <ul class="space-y-1.5">
+            <li>Platform: Static Web</li>
+            <li>Framework: Vanilla</li>
+            <li>CDN Pack: Tailwind v3</li>
+            <li>Icon Suite: Lucide</li>
+          </ul>
+        </div>
+        <div class="space-y-3">
+          <span class="font-extrabold text-white text-[10px] tracking-wider uppercase block border-b border-gray-700 pb-1">CO-OP CORE ENVELOPE</span>
+          <ul class="space-y-1.5">
+            <li>Sensors: 32 Live Nodes</li>
+            <li>NH-48 Corridor Trace</li>
+            <li>Multipath Route Search</li>
+            <li>Cold Aux Buffer</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto mt-10 pt-6 border-t border-gray-800 text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-4 font-mono text-[10px] text-gray-500 relative z-10">
+      <span>AgroPulse AI © 2026. Licensed under Apache 2.0. Visual concept tailored on Neo-Brutalism aesthetics.</span>
+      <span class="text-[#CCFF00]" id="footer-live-time">Timestamp: 2026-06-21 11:44:28 UTC</span>
+    </div>
+  </footer>
+
+
+  <!-- CORE JAVASCRIPT SYSTEM LOGIC -->
+  <script>
+    // System Status Storage
+    let isCrisisMode = false;
+    let selectedNode = 'farm-a';
+    let currentFilter = 'all';
+    let hapticAudioEnabled = true;
+
+    // Standard baseline logs database
+    const initialLogs = [
+      { id: 1, timestamp: '11:41:02', category: 'system', text: 'Telemetry synchronization complete. 32 monitoring points reported.', type: 'info' },
+      { id: 2, timestamp: '11:41:15', category: 'routing', text: 'Primary Highway Corridor (NH-48) flow is calculated as OPTIMAL.', type: 'success' },
+      { id: 3, timestamp: '11:42:10', category: 'system', text: 'Power reserves at Storage Hub C active at 98.4% battery backup.', type: 'info' },
+      { id: 4, timestamp: '11:42:50', category: 'routing', text: 'Dispatch sequence verified for standard cargo load series TRK-102.', type: 'info' },
+      { id: 5, timestamp: '11:43:12', category: 'system', text: 'Cooperative A Highland Tomato core cooling container check... OK.', type: 'success' },
+      { id: 6, timestamp: '11:43:48', category: 'routing', text: 'Express railway branch route designated dormant, ready for bypass.', type: 'info' },
+      { id: 7, timestamp: '11:44:02', category: 'system', text: 'Weather telemetry feed updated: 0% rain probability sector 4.', type: 'info' }
+    ];
+
+    // Array holding active runtime logs
+    let activeLogs = [...initialLogs];
+
+    // Selected node metadata catalog
+    const nodeMetadata = {
+      'farm-a': {
+        title: "Farm Cooperative A (Highlands)",
+        payload: "14 Tons Fresh Tomatoes",
+        temp: "19.4 °C (Stable)",
+        aux: "Primary AC active",
+        level: "LEVEL 1 DIRECT",
+        route: "Highway Direct",
+        isAlert: false
+      },
+      'farm-b': {
+        title: "Farm Cooperative B (Plains)",
+        payload: "28 Tons Coarse Paddy Grains",
+        temp: "22.1 °C (Stable)",
+        aux: "Ventilation active",
+        level: "LEVEL 2 ROUTING",
+        route: "Highway Direct",
+        isAlert: false
+      },
+      'storage-hub': {
+        title: "Central Storage Auxiliary Silo",
+        payload: "Capacity: 250 Tons Total",
+        temp: "-2.5 °C (Active Cold Hold)",
+        aux: "Backup Generator Fuel 95%",
+        level: "RESERVE AMMONIA BUFFER",
+        route: "Intermediate Bypass Standby",
+        isAlert: false
+      },
+      'highway-junction': {
+        title: "Highway Trunk Interchange NH-48",
+        payload: "Traffic Intensity: LOW (Steady Flow)",
+        temp: "28.5 °C (Road surface)",
+        aux: "Weather telemetry healthy",
+        level: "PRIMARY DISPATCH NODE",
+        route: "Core Highway Channel",
+        isAlert: false
+      },
+      'market-destination': {
+        title: "Metro Market Terminal Dist.",
+        payload: "Incoming: 12 tons / hr",
+        temp: "24.0 °C",
+        aux: "Wholesale index stable",
+        level: "DESTINATION JUNCTION",
+        route: "Receiving cargo regular",
+        isAlert: false
+      },
+      'rail-depot': {
+        title: "Emergency Railway Freight",
+        payload: "Capacity: 12 Express Container Blocks",
+        temp: "Ambient standard",
+        aux: "Dormant mode",
+        level: "RAIL BYPASS LINE",
+        route: "Standby Mode Inactive",
+        isAlert: false
+      }
+    };
+
+    // Crisis updates for nodes when disaster occurs
+    const cropCrisisMetadata = {
+      'farm-a': {
+        title: "Farm Cooperative A (Highlands)",
+        payload: "14 Tons Tomato (Rerouting)",
+        temp: "31.8 °C (Critical Heat Flare)",
+        aux: "Aux cool generators engaged",
+        level: "CRITICAL RE-ROUTE COMPASS",
+        route: "By-pass Rail Express Active",
+        isAlert: true
+      },
+      'farm-b': {
+        title: "Farm Cooperative B (Plains)",
+        payload: "28 Tons Maize-Grains (Silo Buffer)",
+        temp: "24.1 °C (Stable)",
+        aux: "Emergency flow pathing",
+        level: "HOLD FOR SECURED TRANSIT",
+        route: "Diverted to Storage aux",
+        isAlert: true
+      },
+      'storage-hub': {
+        title: "Central Storage Auxiliary Silo",
+        payload: "Storing diverted loads: 42 Tons active",
+        temp: "-6.2 °C (Boost Pre-Cool mode)",
+        aux: "Dual refrigeration loops full power",
+        level: "ACTIVE EMERGENCY RE-COOL",
+        route: "Bypass Channel Hub",
+        isAlert: true
+      },
+      'highway-junction': {
+        title: "Highway Trunk Interchange NH-48",
+        payload: "Traffic Flow: TERMINATED",
+        temp: "32.0 °C (Water level logged)",
+        aux: "ALERT: 1.2m STANDING WATER DETECTED",
+        level: "BLOCKED CORRIDOR NH-48 (KM 194)",
+        route: "ROADS IMPASSABLE CLOSED",
+        isAlert: true
+      },
+      'market-destination': {
+        title: "Metro Market Terminal Dist.",
+        payload: "Demand Index: 280% SHORTAGE ALERT",
+        temp: "24.0 °C",
+        aux: "Wholesale Citrus spikes 2.1x price",
+        level: "EMERGENCY INTAKE WINDOW",
+        route: "Awaiting Emergency rail delivery",
+        isAlert: true
+      },
+      'rail-depot': {
+        title: "Emergency Railway Freight",
+        payload: "Dispatching Cargo R_405: 42 Tons",
+        temp: "Controlled reefer cars active",
+        aux: "High-Priority chartered",
+        level: "EMERGENCY FREIGHT ACTIVE",
+        route: "Active trace via rail bypass",
+        isAlert: true
+      }
+    };
+
+    // Tone Synth Engine
+    function playBeep(frequency = 440, duration = 0.1, type = 'sine') {
+      if (!hapticAudioEnabled) return;
+      if (!window.AudioContext && !window.webkitAudioContext) return;
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(frequency, ctx.currentTime);
+        
+        // Anti-pop quick ramp
+        gain.gain.setValueAtTime(0.08, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + duration);
+        
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + duration);
+      } catch (e) {
+        console.warn("Browser prevented direct haptic synth trigger: ", e);
+      }
+    }
+
+    // Toggle Beeps
+    function toggleAudio() {
+      hapticAudioEnabled = !hapticAudioEnabled;
+      const t = document.getElementById('haptic-audio-toggle');
+      if (hapticAudioEnabled) {
+        t.innerText = "Disable Audio Beeps";
+        playBeep(600, 0.1);
+      } else {
+        t.innerText = "Enable Audio Beeps";
+      }
+    }
+
+    // Initialize Page Elements
+    window.addEventListener('DOMContentLoaded', () => {
+      // Create Lucide Icons
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+      renderLogs();
+      selectNode('farm-a'); // default inspection
+    });
+
+    // CLIMATE SHOCK SIMULATION TOGGLE
+    function triggerClimateShock() {
+      isCrisisMode = !isCrisisMode;
+      
+      // Elements Hookup
+      const btnShock = document.getElementById('btn-shock');
+      const btnShockText = document.getElementById('btn-shock-text');
+      const statusBadge = document.getElementById('status-badge');
+      const statusText = document.getElementById('status-text');
+      const algoStateText = document.getElementById('algo-state-text');
+      const crisisAlertBanner = document.getElementById('crisis-alert-banner');
+      const shadowMapOverlay = document.getElementById('map-critical-overlay');
+
+      const pathPrimaryFlow = document.getElementById('path-trunk-highway-flow');
+      const pathAuxSiloFlow = document.getElementById('path-aux-silo-flow');
+      const pathRailBypassFlow = document.getElementById('path-rail-bypass-flow');
+      const pathRailBypassFlowAnts = document.getElementById('path-rail-bypass-flow-ants');
+      const pathMetroConnectorFlow = document.getElementById('path-metro-connector-flow');
+      const landslideMarker = document.getElementById('landslide-marker');
+
+      // Nodes on layout
+      const nodeFarmA = document.getElementById('node-box-farmA');
+      const nodeFarmB = document.getElementById('node-box-farmB');
+      const nodeStorage = document.getElementById('node-box-storage');
+      const nodeJunction = document.getElementById('node-box-junction');
+      const nodeMarket = document.getElementById('node-box-market');
+      const nodeRail = document.getElementById('node-box-rail');
+
+      if (isCrisisMode) {
+        // Trigger alert sound cascade
+        playBeep(260, 0.1, 'sawtooth');
+        setTimeout(() => playBeep(260, 0.1, 'sawtooth'), 120);
+        setTimeout(() => playBeep(320, 0.2, 'sawtooth'), 240);
+
+        // Turn UI into EMERGENCY mode
+        btnShockText.innerText = "RESET TO STEADY STATE";
+        btnShock.classList.remove('bg-[#CCFF00]');
+        btnShock.classList.add('bg-red-500', 'text-white', 'neo-shadow-crimson');
+        btnShock.classList.replace('neo-btn', 'neo-btn-red');
+
+        // Status Badge Style
+        statusBadge.classList.replace('bg-[#CCFF00]', 'bg-red-500');
+        statusBadge.classList.add('text-white');
+        statusText.innerText = "CRITICAL METRIC OVERFLOW";
+        
+        // Header Visual warning
+        document.getElementById('main-header').classList.add('border-red-500');
+        algoStateText.innerText = "ACTIVE BYPASS SEARCHENGAGED";
+        algoStateText.classList.replace('text-[#CCFF00]', 'text-red-500');
+
+        // Show Alarm banners & Overlays
+        crisisAlertBanner.classList.remove('hidden');
+        shadowMapOverlay.classList.remove('hidden');
+        landslideMarker.classList.replace('opacity-0', 'opacity-100');
+
+        // SVG route manipulations
+        pathPrimaryFlow.classList.add('hidden'); // Highway dead (Red outline base takes place)
+        pathPrimaryFlow.style.stroke = "#EF4444"; 
+
+        pathAuxSiloFlow.classList.remove('hidden'); // Divert cargo path to Storage
+        pathRailBypassFlow.classList.remove('hidden'); // Activate alternate routes
+        pathRailBypassFlowAnts.classList.remove('hidden'); 
+        pathMetroConnectorFlow.classList.remove('hidden');
+
+        // Node fill color adjustments indicating warnings or bypass actives
+        nodeJunction.setAttribute('fill', '#FEE2E2');
+        nodeJunction.setAttribute('stroke', '#EF4444');
+        document.getElementById('node-junction-detail').textContent = "⛔ WATERLOGGED";
+        document.getElementById('node-junction-detail').setAttribute('fill', '#EF4444');
+
+        nodeFarmA.setAttribute('fill', '#FEF3C7');
+        document.getElementById('node-farmA-pulse').textContent = "▲ TEMP HEAT: 31.8C";
+        document.getElementById('node-farmA-pulse').setAttribute('fill', '#EF4444');
+
+        nodeStorage.setAttribute('fill', '#ECFDF5');
+        document.getElementById('node-storage-status').textContent = "● COOLHOLD BURSTING";
+        document.getElementById('node-storage-status').setAttribute('fill', '#F59E0B');
+
+        nodeRail.setAttribute('fill', '#CCFF00');
+        document.getElementById('node-rail-status').textContent = "● FREIGHT IN TRANSIT";
+        document.getElementById('node-rail-status').setAttribute('fill', '#000000');
+
+        // Stagger logs inserts to make terminal feel responsive on crisis trigger
+        addCrisisStaggeredLogs();
+
+        // Animate count stats
+        animateValue("metric-spoilage", 4.2, 68.9, "%", 1);
+        animateValue("metric-fleet", 31, 94, "%", 0);
+        animateValue("metric-pending", 0, 37, "", 0);
+        animateValue("metric-reroutes", 42.5, 289.4, "K", 1, "$");
+
+        // Apply Warning state to metrics borders
+        document.getElementById('metric-spoilage-delta').innerText = "CRITICAL SPOIL RISK";
+        document.getElementById('metric-spoilage-delta').classList.replace('text-green-600', 'text-red-600');
+        document.getElementById('metric-spoilage-bar').style.width = "68.9%";
+        document.getElementById('metric-spoilage-bar').classList.replace('bg-green-500', 'bg-red-500');
+        document.getElementById('card-1-accent').classList.replace('bg-green-500', 'bg-red-500');
+        document.getElementById('card-1-badge').className = "bg-red-100 p-1 neo-border-thin rounded-sm text-red-700";
+        document.getElementById('card-1-detail').innerText = "Vulnerability: Under 6 Hrs remaining";
+
+        document.getElementById('metric-fleet-delta').innerText = "CONGESTION HIGH";
+        document.getElementById('metric-fleet-delta').classList.replace('text-slate-600', 'text-red-500');
+        document.getElementById('metric-fleet-bar').style.width = "94%";
+        document.getElementById('metric-fleet-bar').classList.replace('bg-black', 'bg-red-500');
+        document.getElementById('card-2-accent').classList.replace('bg-black', 'bg-red-500');
+
+        document.getElementById('metric-pending-delta').innerText = "BLOCKED TRUNK KM194";
+        document.getElementById('metric-pending-delta').classList.replace('text-[#666]', 'text-red-600');
+        document.getElementById('metric-pending-bar').style.width = "85%";
+        document.getElementById('metric-pending-bar').classList.replace('bg-gray-400', 'bg-red-500');
+        document.getElementById('card-3-accent').classList.replace('bg-black', 'bg-red-500');
+        document.getElementById('card-3-detail').innerText = "14 refrigerated trucks delayed";
+
+        document.getElementById('metric-reroutes-delta').innerText = "BYPASS ENGAGED";
+        document.getElementById('metric-reroutes-delta').classList.add('text-green-700', 'font-black');
+        document.getElementById('metric-reroutes-bar').style.width = "95%";
+        document.getElementById('card-4-detail').innerText = "Freight bypass charters saved cargo";
+
+        document.getElementById('delay-index').innerText = "Bypassed via Rail Express";
+
+        // AI Advisory box instant preview
+        document.getElementById('ai-sheet-heading').innerText = "DETECTION: SECTOR 4 MONSOON SHOCK";
+        document.getElementById('ai-sheet-timestamp').innerText = "CALCULATIONS EXECUTED";
+        document.getElementById('ai-sheet-timestamp').classList.replace('text-[#CCFF00]', 'text-red-400');
+        document.getElementById('ai-text-box').innerHTML = `<span class="text-red-500 font-extrabold flex items-center gap-1"><i data-lucide='triangle-alert' class='w-4 h-4'></i> COOP CRITICAL INCIDENT REPORT:</span> High density flood blocking primary transport NH-48. Spoilage risk escalated to 68.9%. Click <strong>"COMPILE DISPATCH ADVISORY"</strong> below to parse the alternate satellite coordinates and dispatch solutions.`;
+
+      } else {
+        // Reset to normal steady state
+        playBeep(400, 0.1, 'sine');
+        setTimeout(() => playBeep(520, 0.12, 'sine'), 80);
+
+        btnShockText.innerText = "SIMULATE CLIMATE SHOCK";
+        btnShock.classList.add('bg-[#CCFF00]');
+        btnShock.classList.remove('bg-red-500', 'text-white', 'neo-shadow-crimson');
+        btnShock.classList.replace('neo-btn-red', 'neo-btn');
+
+        statusBadge.classList.replace('bg-red-500', 'bg-[#CCFF00]');
+        statusBadge.classList.remove('text-white');
+        statusText.innerText = "MONSOON NODE: ACTIVE";
+
+        document.getElementById('main-header').classList.remove('border-red-500');
+        algoStateText.innerText = "DORMANT (STEADY REROUTE)";
+        algoStateText.classList.replace('text-red-500', 'text-[#CCFF00]');
+
+        crisisAlertBanner.classList.add('hidden');
+        shadowMapOverlay.classList.add('hidden');
+        landslideMarker.classList.replace('opacity-100', 'opacity-0');
+
+        pathPrimaryFlow.classList.remove('hidden');
+        pathPrimaryFlow.style.stroke = "#22C55E";
+
+        pathAuxSiloFlow.classList.add('hidden');
+        pathRailBypassFlow.classList.add('hidden');
+        pathRailBypassFlowAnts.classList.add('hidden');
+        pathMetroConnectorFlow.classList.add('hidden');
+
+        nodeJunction.setAttribute('fill', '#FFFFFF');
+        nodeJunction.setAttribute('stroke', '#000000');
+        document.getElementById('node-junction-detail').textContent = "FLOW OPTIMAL";
+        document.getElementById('node-junction-detail').setAttribute('fill', '#22C55E');
+
+        nodeFarmA.setAttribute('fill', '#FFFFFF');
+        document.getElementById('node-farmA-pulse').textContent = "● TEMP OUT: 19.4C";
+        document.getElementById('node-farmA-pulse').setAttribute('fill', '#22C55E');
+
+        nodeStorage.setAttribute('fill', '#FFFFFF');
+        document.getElementById('node-storage-status').textContent = "● STANDBY: AVAILABLE";
+        document.getElementById('node-storage-status').setAttribute('fill', '#22C55E');
+
+        nodeRail.setAttribute('fill', '#FFFFFF');
+        document.getElementById('node-rail-status').textContent = "STANDBY INACTIVE";
+        document.getElementById('node-rail-status').setAttribute('fill', '#888');
+
+        // Reset Logs to baseline
+        activeLogs = [...initialLogs];
+        renderLogs();
+
+        // Animate baseline stats back
+        animateValue("metric-spoilage", 68.9, 4.2, "%", 1);
+        animateValue("metric-fleet", 94, 31, "%", 0);
+        animateValue("metric-pending", 37, 0, "", 0);
+        animateValue("metric-reroutes", 289.4, 42.5, "K", 1, "$");
+
+        // Reset elements styles
+        document.getElementById('metric-spoilage-delta').innerText = "SAFE RANGE";
+        document.getElementById('metric-spoilage-delta').classList.replace('text-red-600', 'text-green-600');
+        document.getElementById('metric-spoilage-bar').style.width = "4.2%";
+        document.getElementById('metric-spoilage-bar').classList.replace('bg-red-500', 'bg-green-500');
+        document.getElementById('card-1-accent').classList.replace('bg-red-500', 'bg-green-500');
+        document.getElementById('card-1-badge').className = "bg-green-100 p-1 neo-border-thin rounded-sm text-green-700";
+        document.getElementById('card-1-detail').innerText = "Safe window: 32 hrs avg";
+
+        document.getElementById('metric-fleet-delta').innerText = "FLOW STABLE";
+        document.getElementById('metric-fleet-delta').classList.replace('text-red-500', 'text-slate-600');
+        document.getElementById('metric-fleet-bar').style.width = "31%";
+        document.getElementById('metric-fleet-bar').classList.replace('bg-red-500', 'bg-black');
+        document.getElementById('card-2-accent').classList.replace('bg-red-500', 'bg-black');
+
+        document.getElementById('metric-pending-delta').innerText = "NORMAL TRUNK";
+        document.getElementById('metric-pending-delta').classList.replace('text-red-600', 'text-[#666]');
+        document.getElementById('metric-pending-bar').style.width = "0%";
+        document.getElementById('metric-pending-bar').classList.replace('bg-red-500', 'bg-gray-400');
+        document.getElementById('card-3-accent').classList.replace('bg-red-500', 'bg-black');
+        document.getElementById('card-3-detail').innerText = "0 blocked corridors";
+
+        document.getElementById('metric-reroutes-delta').innerText = "STANDBY";
+        document.getElementById('metric-reroutes-delta').classList.remove('text-green-700', 'font-black');
+        document.getElementById('metric-reroutes-bar').style.width = "20%";
+        document.getElementById('card-4-detail').innerText = "Co-op budget protection";
+
+        document.getElementById('delay-index').innerText = "0m (Stable)";
+
+        document.getElementById('ai-sheet-heading').innerText = "STEADY STATE ROUTING ACTIVE";
+        document.getElementById('ai-sheet-timestamp').innerText = "SYNCED OK";
+        if (document.getElementById('ai-sheet-timestamp').classList.contains('text-red-400')) {
+          document.getElementById('ai-sheet-timestamp').classList.replace('text-red-400', 'text-[#CCFF00]');
+        }
+        document.getElementById('ai-text-box').innerText = "System is running in STEADY DISTRIBUTION MODE. Primary trunk road NH-48 is rated green and optimal. No detour instructions required. Cooperative dispatches of tomatoes and grains should continue along primary national highway paths.";
+      }
+
+      // Re-fill the node metadata inspector under map based on new mode
+      selectNode(selectedNode);
+
+      // Refresh icons inside rendered alerts
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+    }
+
+    // Dynamic numeric animations
+    function animateValue(id, start, end, suffix = "", decimals = 0, prefix = "") {
+      const obj = document.getElementById(id);
+      let range = end - start;
+      let current = start;
+      let increment = range / 20; // 20 frames animation
+      let count = 0;
+      
+      let timer = setInterval(() => {
+        current += increment;
+        count++;
+        if (count >= 20) {
+          clearInterval(timer);
+          obj.innerText = prefix + end.toFixed(decimals) + suffix;
+        } else {
+          obj.innerText = prefix + current.toFixed(decimals) + suffix;
+        }
+      }, 30);
+    }
+
+    // Click interactive Nodes
+    function selectNode(nodeId) {
+      selectedNode = nodeId;
+      playBeep(480, 0.05);
+
+      const titleNode = document.getElementById('inspector-title');
+      const payloadNode = document.getElementById('inspector-payload');
+      const tempNode = document.getElementById('inspector-temp');
+      const auxNode = document.getElementById('inspector-aux');
+      const levelNode = document.getElementById('inspector-level');
+      const routeStatusNode = document.getElementById('inspector-route-status');
+
+      // Clear dynamic active highlight borders in SVG nodes
+      const allBoxIds = ['node-box-farmA', 'node-box-farmB', 'node-box-storage', 'node-box-junction', 'node-box-market', 'node-box-rail'];
+      allBoxIds.forEach(id => {
+        const item = document.getElementById(id);
+        if (item) {
+          item.setAttribute('stroke-width', '3');
+          // if not danger, flash light styling
+        }
+      });
+
+      // Highlight selected box thick outline
+      let activeBoxId = '';
+      if (nodeId === 'farm-a') activeBoxId = 'node-box-farmA';
+      else if (nodeId === 'farm-b') activeBoxId = 'node-box-farmB';
+      else if (nodeId === 'storage-hub') activeBoxId = 'node-box-storage';
+      else if (nodeId === 'highway-junction') activeBoxId = 'node-box-junction';
+      else if (nodeId === 'market-destination') activeBoxId = 'node-box-market';
+      else if (nodeId === 'rail-depot') activeBoxId = 'node-box-rail';
+
+      const activeBox = document.getElementById(activeBoxId);
+      if (activeBox) {
+        activeBox.setAttribute('stroke-width', '6');
+      }
+
+      // Read appropriate normal / crisis structure
+      const metadata = isCrisisMode ? cropCrisisMetadata[nodeId] : nodeMetadata[nodeId];
+
+      if (metadata) {
+        titleNode.innerHTML = `<span class="w-3 h-3 bg-${metadata.isAlert ? 'red-500' : 'green-500'} inline-block neo-border-thin mr-1"></span> ${metadata.title}`;
+        payloadNode.innerText = metadata.payload;
+        tempNode.innerText = metadata.temp;
+        auxNode.innerText = metadata.aux;
+        levelNode.innerText = metadata.level;
+        levelNode.className = metadata.isAlert ? "text-red-600 text-xs font-bold" : "text-[#22C55E] text-xs font-bold";
+
+        // Route status action trigger
+        routeStatusNode.innerText = metadata.route;
+        if (metadata.isAlert) {
+          routeStatusNode.className = "text-xs font-mono font-black text-white bg-red-500 rounded px-1.5 py-0.5 text-center truncate block mt-1 uppercase animate-pulse";
+        } else {
+          routeStatusNode.className = "text-xs font-mono font-black text-green-800 bg-green-100 rounded px-1.5 py-0.5 text-center truncate block mt-1 uppercase";
+        }
+      }
+    }
+
+    function pingSelectedNode() {
+      playBeep(880, 0.08);
+      const logBox = document.getElementById('terminal-logs-container');
+      const time = generateTimestamp();
+      
+      const newLog = {
+        id: Date.now(),
+        timestamp: time,
+        category: 'system',
+        text: `COMMAND:_PING node [${selectedNode.toUpperCase()}] ... Handshake SUCCESS. Loss 0%. Round-trip: 12ms.`,
+        type: 'success'
+      };
+
+      activeLogs.push(newLog);
+      renderLogs();
+      scrollTerminalToBottom();
+    }
+
+
+    // Crisis Log entries append with simulated staggered arrival
+    function addCrisisStaggeredLogs() {
+      const logsToAppend = [
+        { timestamp: '11:44:20', category: 'alerts', text: '⚠️ SATELLITE WARNING: HEAVY CLIMATE FRONT ESCALATING IN SECTOR 4.', type: 'critical' },
+        { timestamp: '11:44:21', category: 'alerts', text: '🌊 NH-48 INUNDATION SENSORS LOGGED 1.2M STANDING WATER (KM 194).', type: 'critical' },
+        { timestamp: '11:44:23', category: 'system', text: 'TELEMETRY SHOCK ALERT: High ambient heat flares citrus container A.', type: 'warning' },
+        { timestamp: '11:44:25', category: 'routing', text: 'REROUTING PROTOCOL AUTOMATICALLY INITIATED UNDER CODE MONSOON_C3.', type: 'info' },
+        { timestamp: '11:44:28', category: 'routing', text: 'ALTERNATE BYPASS CALCULATION ACQUIRED: Western Hills rail corridor designated path.', type: 'success' },
+        { timestamp: '11:44:31', category: 'system', text: 'Aux cooling loops activated Silos Hub 2 to pre-cool diverted tomato loads.', type: 'success' },
+        { timestamp: '11:44:35', category: 'routing', text: '9 dispatch trucks rerouted to silo auxiliary storage. Spoilage risk mitigated.', type: 'success' }
+      ];
+
+      logsToAppend.forEach((log, index) => {
+        setTimeout(() => {
+          if (!isCrisisMode) return; // safeguard if reset quickly
+          activeLogs.push({ id: Date.now() + index, ...log });
+          renderLogs();
+          scrollTerminalToBottom();
+          playBeep(480 + (index * 40), 0.05, 'triangle');
+        }, (index + 1) * 350); // elegant organic cascade
+      });
+    }
+
+    // LOG FILTERING CONTROLS
+    function changeLogFilter(filterMode) {
+      playBeep(350, 0.04);
+      currentFilter = filterMode;
+
+      // Class toggles for active filter button
+      const filters = ['all', 'alerts', 'routing', 'system'];
+      filters.forEach(f => {
+        const btn = document.getElementById(`filter-btn-${f}`);
+        if (f === filterMode) {
+          btn.className = "font-mono text-[9px] px-2 py-1 bg-white text-black font-extrabold uppercase tracking-tight border border-white neo-shadow-sm";
+        } else {
+          btn.className = "font-mono text-[9px] px-2 py-1 text-gray-400 font-bold uppercase tracking-tight hover:text-white transition";
+        }
+      });
+
+      renderLogs();
+    }
+
+    // Render Logs inside dark container
+    function renderLogs() {
+      const container = document.getElementById('terminal-logs-container');
+      container.innerHTML = '';
+
+      const filtered = activeLogs.filter(log => {
+        if (currentFilter === 'all') return true;
+        return log.category === currentFilter;
+      });
+
+      filtered.forEach(log => {
+        const div = document.createElement('div');
+        div.className = "flex items-start gap-2 border-b border-white/5 pb-1 select-all";
+        
+        // category badge styling
+        let badgeColor = "bg-gray-700 text-gray-300";
+        if (log.category === 'alerts') badgeColor = "bg-red-600 text-white font-extrabold";
+        else if (log.category === 'routing') badgeColor = "bg-blue-600 text-white font-bold";
+        else if (log.category === 'system') badgeColor = "bg-[#CCFF00] text-black font-extrabold";
+
+        div.innerHTML = `
+          <span class="text-gray-500 font-bold tracking-tight shrink-0">[${log.timestamp}]</span>
+          <span class="text-[9px] tracking-widest uppercase py-0.5 px-1 ${badgeColor} rounded-xs shrink-0 font-bold">${log.category}</span>
+          <span class="${getLogTextClass(log.type)} tracking-tight">${log.text}</span>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function getLogTextClass(type) {
+      if (type === 'critical') return "text-red-400 font-bold";
+      if (type === 'warning') return "text-amber-300";
+      if (type === 'success') return "text-green-400";
+      return "text-slate-300";
+    }
+
+    function scrollTerminalToBottom() {
+      const container = document.getElementById('terminal-logs-container');
+      container.scrollTop = container.scrollHeight;
+    }
+
+
+    // CLI MANUAL STATEMENTS EXECUTION
+    function handleTerminalCommand(e) {
+      if (e.key === 'Enter') {
+        sendManualCommand();
+      }
+    }
+
+    function sendManualCommand() {
+      const input = document.getElementById('terminal-input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      playBeep(520, 0.05);
+      
+      const time = generateTimestamp();
+      const commandParsed = text.toLowerCase();
+
+      // Core user input log append
+      activeLogs.push({
+        id: Date.now(),
+        timestamp: time,
+        category: 'system',
+        text: `USER_CMD: ${text}`,
+        type: 'info'
+      });
+
+      // Simple keyword response processor inside coop console
+      let reply = "ERR: COMMAND NOT RECOGNIZED. Type 'help' for instructions.";
+      let replyType = "critical";
+
+      if (commandParsed === 'help') {
+        reply = "AVAILABLE: 'status' (Network check), 're-route' (Force Emergency path activation), 'clear' (Reset console logs).";
+        replyType = "info";
+      } else if (commandParsed === 'clear') {
+        activeLogs = [];
+        reply = "SYSTEM: Terminal telemetry logs scrubbed.";
+        replyType = "success";
+      } else if (commandParsed === 'status') {
+        reply = isCrisisMode ? "CRISIS MODE: NH-48 Impassable. Railway bypass running at 94%." : "STEADY STATUS: Transport networks optimal, 0 failures.";
+        replyType = isCrisisMode ? "warning" : "success";
+      } else if (commandParsed === 're-route') {
+        if (!isCrisisMode) {
+          triggerClimateShock();
+          reply = "EXECUTE: Rerouting protocols engaged. Alternate bypass routes online.";
+          replyType = "success";
+        } else {
+          reply = "ALERT: Emergency bypasses are already active.";
+          replyType = "warning";
+        }
+      }
+
+      setTimeout(() => {
+        activeLogs.push({
+          id: Date.now() + 1,
+          timestamp: generateTimestamp(),
+          category: 'routing',
+          text: reply,
+          type: replyType
+        });
+        renderLogs();
+        scrollTerminalToBottom();
+        playBeep(640, 0.05, 'sine');
+      }, 150);
+
+      input.value = '';
+      renderLogs();
+      scrollTerminalToBottom();
+    }
+
+
+    // AI EXECUTIVE ADVISORY SIMULATED CO-OP BUILDER (Wow Moment)
+    function generateAIAdvisory() {
+      // Audio trigger
+      playBeep(520, 0.1);
+      setTimeout(() => playBeep(580, 0.1), 100);
+      setTimeout(() => playBeep(700, 0.2, 'sawtooth'), 200);
+
+      const loadingPanel = document.getElementById('ai-loading-panel');
+      const textBox = document.getElementById('ai-text-box');
+      const actionText = document.getElementById('saved-summary-text');
+      const aiHeading = document.getElementById('ai-sheet-heading');
+      const timestampBadge = document.getElementById('ai-sheet-timestamp');
+
+      // Show loader
+      loadingPanel.classList.remove('hidden');
+      textBox.classList.add('hidden');
+      
+      // Read adjustments values
+      const cropFocus = document.getElementById('adj-crop').value;
+      const metricsPriority = document.getElementById('adj-mode').value;
+
+      // Animate fake progress indicator bar
+      let tracker = document.getElementById('loading-bar-tracker');
+      let progress = 0;
+      let interval = setInterval(() => {
+        progress += 10;
+        if (progress > 100) {
+          clearInterval(interval);
+          finishAdvisoryGeneration(cropFocus, metricsPriority);
+        }
+      }, 120);
+    }
+
+    function finishAdvisoryGeneration(cropFocus, metricsPriority) {
+      const loadingPanel = document.getElementById('ai-loading-panel');
+      const textBox = document.getElementById('ai-text-box');
+      const shadowBox = document.getElementById('ai-output-manifest');
+      const aiHeading = document.getElementById('ai-sheet-heading');
+      const timestampBadge = document.getElementById('ai-sheet-timestamp');
+      const actionText = document.getElementById('saved-summary-text');
+
+      loadingPanel.classList.add('hidden');
+      textBox.classList.remove('hidden');
+      
+      // Update heading text
+      aiHeading.innerText = isCrisisMode ? "COMPILED EMERGENCY LOGISTICS STRATEGY" : "PREEMPTIVE REGULAR DISPATCH GUIDES";
+      timestampBadge.innerText = generateTimestamp() + " UTC CALC";
+      timestampBadge.classList.replace('text-[#CCFF00]', 'text-black');
+
+      let computedText = "";
+
+      // Standard Gemini Prompt simulator based on settings
+      if (!isCrisisMode) {
+        computedText = `<strong>AGROPULSE STEADY INTELLIGENCE:</strong> 
+        All primary transit corridors (especially trunk road NH-48 Sector 4) report optimal flows for <strong>${cropFocus}</strong>. 
+        Calculated risk factor of spoilage stands at a minimal 1.8% over the next 24 hours. No bypass paths or aux chilling silos need to be activated. 
+        Advisory guidelines: prioritize normal morning cooperative dispatches to the Metropolitan Market, utilizing standard cost-saving schedules (model: <em>${metricsPriority}</em>).`;
+        
+        actionText.innerText = "COOP FLOW COEFFICIENT: 100% RELIABILITY";
+      } else {
+        // Crisis situation detailed customized advisory outputs
+        if (cropFocus === "Tomatoes") {
+          computedText = `<strong>🚨 CRITICAL SPOIL DISPATCH DIRECTIVE:</strong> NH-48 trunk segment closed (1.2m water inundation at sector 4). Spoil risk for Highland Tomato loads escalated to 68.9% due to rapid ambient heat exposure (31.8°C). 
+          <br><br>
+          <strong>1. DIVERT CARGO TO AUX STORAGE:</strong> Reroute 14 tons of freshly-harvested citrus and tomato lots from Farm Coop A to Central Storage Auxiliary Silos within the next 4.5 hours. Initiate pre-flash liquid nitrogen chill cycles to bridge the transport block.
+          <br><br>
+          <strong>2. COMMISSION RAIL EMERGENCY SYSTEM:</strong> Initiate handshake protocol with Southern Rail Express at Depot. Deliver 14 tons via refrigerated rail block CARGO_R_405 directly to Metropolitan wholesale market, completely bypassing sector 4 highway water block. Saves estimated food cargo worth <strong>$232,000</strong>. Priority set: <em>${metricsPriority}</em>.`;
+          
+          actionText.innerText = "SPOIL MITIGATION INDEX: $232,000 PRESERVED";
+        } else if (cropFocus === "Organic Milks") {
+          computedText = `<strong>🚨 EXPEDITED DAIRY CORRIDOR DIRECTIVE:</strong> Flood water blocking core path NH-48 sector 4. Organic Milk loads backlogging in plain cooperations with danger of bacterial souring under solar exposure.
+          <br><br>
+          <strong>1. ENGAGE CENTRAL COLD SILOS BUFFER:</strong> Halt all ambient container trucks. Redirect incoming bulk dairy fleets to Central Silo refrigerating units immediately to maintain 3.5°C standard hold.
+          <br><br>
+          <strong>2. RAIL CARGO DOCK EXPEDITING:</strong> Coordinate priority express freight slot at backup Depot. Allocate cold-haul storage cars. Deliver load by rail bypass bypass within 6 hours. Priority matrix settings: <em>${metricsPriority}</em>. Preservation potential savings: <strong>$185,000</strong>.`;
+          
+          actionText.innerText = "SPOIL MITIGATION INDEX: $185,000 PRESERVED";
+        } else {
+          // grains focus
+          computedText = `<strong>🚨 COOP SECURED DRY GRANGE GUIDELINE:</strong> Heavy rain warnings in Sector 4 compromise open trailers on primary routes. Monsoon rain risks rapid ambient mold damage on Coarse Paddy grains.
+          <br><br>
+          <strong>1. PREVENT MOISTURE TRAP:</strong> Direct all incoming cooperative cargo containers at Farm Coop B to shelter tarp buffers. Hold dispatch until alternate express railway bypass clearance is authorized at Depot.
+          <br><br>
+          <strong>2. DRYING STATIONS ENHANCED ACTIVE:</strong> Mobilize industrial crop dryer fans at Central storage aux silo. Buffer 28 tons grains. Reduces risk profile of total mold discard, saving <strong>$95,000</strong> in co-op grains. Priority model: <em>${metricsPriority}</em>.`;
+          
+          actionText.innerText = "SPOIL MITIGATION INDEX: $95,000 PRESERVED";
+        }
+      }
+
+      textBox.innerHTML = computedText;
+      playBeep(880, 0.12, 'sine');
+    }
+
+    // Export simulated local file trigger
+    function downloadManifestFile() {
+      playBeep(440, 0.05);
+      const text = document.getElementById('ai-text-box').innerText;
+      
+      const element = document.createElement("a");
+      const file = new Blob([text], {type: 'text/plain'});
+      element.href = URL.createObjectURL(file);
+      element.download = `AgroPulse_AI_Dispatch_Manifest_${generateTimestamp().replace(/:/g, '-')}.txt`;
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
+    }
+
+    // Clipboard API copy helper
+    function copyAdvisoryText() {
+      playBeep(640, 0.08);
+
+      const text = document.getElementById('ai-text-box').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        // Show visual pop-up notification toast
+        const toast = document.getElementById('copy-toast');
+        toast.classList.remove('hidden');
+        
+        const label = document.getElementById('btn-copy-label');
+        label.innerText = "COPIED!";
+        
+        setTimeout(() => {
+          toast.classList.add('hidden');
+          label.innerText = "COPY TEXT";
+        }, 1800);
+      }).catch(err => {
+        console.error("Copy failed: ", err);
+        alert("Clipboard prevented. Advisory content: " + text);
+      });
+    }
+
+    // Date Utilities
+    function generateTimestamp() {
+      const now = new Date();
+      const pad = (num) => String(num).padStart(2, '0');
+      return `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+    }
+
+
+    /* =========================================================================
+       PROD FIREBASE AND GEMINI INTEGRATION DIRECTIVES (For Developer Reference)
+       =========================================================================
+       To connect this visual dashboard to real backend pipelines, implement these:
+       
+       1. AI GEMINI PLATFORM API ROUTING PROMPT (Node/Server Setup):
+          ```javascript
+          import { GoogleGenAI } from "@google/genai";
+          const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+          
+          app.post('/api/advisory', async (req, res) => {
+            const { cropFocus, metricsPriority, isCrisis } = req.body;
+            
+            const prompt = `You are the lead Agriculture and Logistics AI expert system. 
+            Cooperative is shipping ${cropFocus} with priority metrics set to ${metricsPriority}. 
+            Risk conditions: ${isCrisis ? 'CRITICAL HIGH MONSOON WATERLOG BLOCK NH-48' : 'STEADY ROAD STABILITY'}.
+            Draft immediately 3 highly-actionable advisory bullets detailing detours, cold-aux utilization, and freight coordination.`;
+            
+            const response = await ai.models.generateContent({
+              model: 'gemini-2.5-flash',
+              contents: prompt
+            });
+            res.json({ text: response.text });
+          });
+          ```
+
+       2. FIREBASE FIRESTORE REALTIME SYNC FOR TELEMETRY (Client Setup):
+          ```javascript
+          import { initializeApp } from "firebase/app";
+          import { getFirestore, onSnapshot, doc } from "firebase/firestore";
+          
+          const firebaseConfig = { ... };
+          const app = initializeApp(firebaseConfig);
+          const db = getFirestore(app);
+          
+          // Subscribe live-updates of Sector 4 nodes metrics
+          onSnapshot(doc(db, "coops", "sector-4-metrics"), (doc) => {
+             const data = doc.data();
+             updateLiveTelemetryUI(data);
+          });
+          ```
+       ========================================================================= */
+
+  </script>
+</body>
+</html>

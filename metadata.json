@@ -1,0 +1,6 @@
+{
+  "name": "AgroPulse AI",
+  "description": "A neo-brutalist crisis-simulation dashboard for climate-resilient agricultural logistics and spoilage prevention.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
