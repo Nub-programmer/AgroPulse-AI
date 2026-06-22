@@ -187,7 +187,7 @@ To take AgroPulse AI to the next level and easily sweep hackathons, consider imp
 
 ## 👨‍💻 Author Credits & System Metadata
 
-- **Author**: **Atharv Singh Negi, JPS Noida**
+- **Author**: **Atharv**
 - **Repository Location**: [https://github.com/Nub-programmer/AgroPulse-AI](https://github.com/Nub-programmer/AgroPulse-AI)
 - **Release Version**: Version 1.0.4 (Regional Operations Matrix)
 - **License**: MIT Open-Source Sandbox License
