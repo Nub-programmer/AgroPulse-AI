@@ -175,16 +175,6 @@ Open [http://localhost:3000](http://localhost:3000) to inspect.
 
 ---
 
-## 💡 How to Stand Out & Win Competitions (ML Product Tips)
-
-To take AgroPulse AI to the next level and easily sweep hackathons, consider implementing these production extensions:
-1. **Embed a FastAPI Wrapper**: Wrap `research/inference_pipeline.py` with FastAPI, deployment-containerize it via Docker, and deploy onto GCP Cloud Run. Hook up the React dashboard (`src/App.tsx`) via `fetch` to load predictions live instead of using simulated client-side mock coefficients!
-2. **Train with XGBoost / LightGBM**: Swap out Random Forest in `train_models.py` with an XGBoost Classifier and tune hyper-parameters via Optuna. This yields a massive lift in F1-scoring.
-3. **Real SHAP Values plots**: Implement SHAP (SHapley Additive exPlanations) force-plots and summary-plots inside your training python scripts and export the matplotlib images as downloadable PDF briefing attachments for government committees.
-4. **Google Maps Platform ground routes**: Integrate the Route API to fetch live distances (`distance_km`) dynamically instead of using estimated straight-line grids.
-
----
-
 ## 👨‍💻 Author Credits & System Metadata
 
 - **Author**: **Atharv**
